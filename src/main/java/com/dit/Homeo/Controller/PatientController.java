@@ -3,6 +3,7 @@ package com.dit.Homeo.Controller;
 import com.dit.Homeo.Model.Disease;
 import com.dit.Homeo.Model.Medicine;
 import com.dit.Homeo.Model.Patient;
+import com.dit.Homeo.Model.SearchInputs;
 import org.apache.catalina.LifecycleState;
 import org.springframework.ui.Model;
 import com.dit.Homeo.Service.DiseaseService;
@@ -50,8 +51,13 @@ public class PatientController {
     }
 
     @GetMapping(value="/search")
-    public String search() {
+    public String search(Model model) {
+        model.addAttribute("search", new SearchInputs());
         return "/search";
+    }
+    @GetMapping(value = "/prescription")
+    public String precriptionPage(){
+        return "/prescription";
     }
 
     @PostMapping("/addp")
@@ -101,13 +107,20 @@ public class PatientController {
             patient.getDiseaseList().add(dis);
         }
         patientService.save(patient);
-        return "/search";
-    }
-    @GetMapping("/searchResult")
-        public String getAllPatients(Model model){
-        model.addAttribute("patients", patientService.getAllPatients());
         return home();
+    }
+    @PostMapping("/searchResult")
+        public String getAllPatients(Model model, SearchInputs search){
+        model.addAttribute("search", new SearchInputs());
+        model.addAttribute("patients", patientService.getPatientsByValue(search));
+        return "/searchResult";
         }
-
+    @GetMapping("/addPrescription/{id}")
+    public String addNewPrescription(Model model, @PathVariable ("id") String id){
+        Patient patient = patientService.getPatientById(Long.parseLong(id));
+        model.addAttribute("patient",patient);
+        model.addAttribute("prescription",new Medicine());
+        return "/prescription";
+    }
 
 }

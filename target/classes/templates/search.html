@@ -36,7 +36,7 @@
     <div class="container-fluid sticky-top bg-white shadow-sm">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-                <a href="index.html" class="navbar-brand">
+                <a th:href="@{/}" class="navbar-brand">
                     <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-clinic-medical me-2"></i>HomePathy</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -64,15 +64,19 @@
                 <h5 class="fw-normal">Always Update the latest details.</h5>
             </div>
             <div class="mx-auto" style="width: 100%; max-width: 800px;">
+                <form action="#" th:action="@{/searchResult}" th:object="${search}" method="post">
                 <div class="input-group">
-                    <select class="form-select border-primary w-25" style="height: 60px;">
-                        <option value="1" selected>Name</option>
-                        <option value="2">Address</option>
-                        <option value="3">Contact Information</option>
+
+                    <select th:field="*{field}" id="field"  class="form-select border-primary w-25" style="height: 60px;">
+                        <option th:value="Name" selected>Name</option>
+                        <option th:value="Address">Address</option>
+                        <option th:value="Contact">Contact Information</option>
                     </select>
-                    <input type="text" class="form-control border-primary w-50" placeholder="Keyword">
-                    <button class="btn btn-dark border-0 w-25"><a th:href="@{/searchResult}" >Search</a></button>
+                    <input type="text" th:field="*{search}" id="search" class="form-control border-primary w-50" placeholder="Keyword">
+                    <button class="btn btn-dark border-0 w-25">Search</button>
+
                 </div>
+                </form>
             </div>
         </div>
     </div>
