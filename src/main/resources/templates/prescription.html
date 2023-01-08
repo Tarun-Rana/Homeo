@@ -27,10 +27,10 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -78,10 +78,10 @@
                                    th:text="${patient.age}"style="height: 55px;"></p>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control bg-grey border-0"  disabled placeholder="Patient Address - " th:text="${patient.address}" style="height: 55px;">
+                                <span type="text" class="form-control bg-grey border-0"  disabled th:text="${patient.address}" style="height: 55px;"/>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control bg-grey border-0" disabled placeholder="Patient Contact Number - " th:text="${patient.contactInformation}" style="height: 55px;">
+                                <span type="text" class="form-control bg-grey border-0" disabled  th:text="${patient.contactInformation}" style="height: 55px;"/>
                             </div>
                             <div class="col-12">
                                 <textarea type="text" th:field="*{med}" id="medicine" class="form-control bg-white border-0" rows="5"
@@ -93,19 +93,22 @@
                             </div>
                         </div>
                     </form>
-                    <form>
-                        <div class="row g-3 mt-4">
-                            <div class="col-12">
-                                <input type="text" class="form-control bg-grey border-0" disabled rows="1"
-                                    placeholder="Date - 13 Jan 2022"></input>
-                            </div>
-                             
-                            <div class="col-12">
+                    <tbody>
+                    <tr th:if="${medicines.empty}">
+                        <td colspan="2"> No prescription available
+                    <tr th:each="medicine : ${medicines}">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="bg-light rounded overflow-hidden">
+                                <div class="p-4 border-top">
+                                    <div class="col-12">
                                 <textarea class="form-control bg-grey border-0" disabled rows="1"
-                                    placeholder="Prescription - Paracetamol one tablet 3 times a day"></textarea>
+                                          th:text="${medicine.med}"></textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </tr>
+                    </tbody>
                 </div>
                 <!-- Comment Form End -->
  

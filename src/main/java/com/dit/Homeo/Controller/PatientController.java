@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -118,6 +119,12 @@ public class PatientController {
     @GetMapping("/addPrescription/{id}")
     public String addNewPrescription(Model model, @PathVariable ("id") String id){
         Patient patient = patientService.getPatientById(Long.parseLong(id));
+        List<Medicine> medicineList= new ArrayList<>();
+        List<Disease> diseaseList= patient.getDiseaseList();
+        diseaseList.forEach(disease -> {
+            medicineList.addAll(disease.getMedicineList());
+        });
+        model.addAttribute("medicines",medicineList);
         model.addAttribute("patient",patient);
         model.addAttribute("prescription",new Medicine());
         return "/prescription";
